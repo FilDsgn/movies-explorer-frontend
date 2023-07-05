@@ -1,1 +1,9 @@
-.App {}
+.page {
+  font-family: 'Inter', sans-serif;
+  color: #000;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
