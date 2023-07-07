@@ -1,9 +1,8 @@
 .search {
   max-width: 1200px;
   width: 100%;
-  padding: 144px 30px 80px 30px;
+  padding: 144px 30px 10px 30px;
   box-sizing: border-box;
-  /* border-bottom: #E8E8E8 1px solid; */
 }
 
 .search::after {
@@ -84,7 +83,7 @@
 
 @media screen and (max-width: 768px) {
   .search {
-    padding: 154px 30px 120px 30px;
+    padding: 154px 30px 11px 30px;
   }
 
   .search::after {
@@ -109,7 +108,7 @@
 
 @media screen and (max-width: 560px) {
   .search {
-    padding: 154px 10px 120px 10px;
+    padding: 154px 10px 10px 10px;
   }
 
   .search__form {

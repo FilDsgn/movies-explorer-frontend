@@ -9,14 +9,18 @@ import Main from "../Main/Main.js";
 import Movies from "../Movies/Movies.js";
 import Footer from "../Footer/Footer.js";
 
+import moviesDataBase from "../../utils/moviesDataBase.js";
+
 function App() {
+  const moviesList = moviesDataBase;
+
   return (
     <div className="App">
       <div className="page">
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<Movies />} />
+          <Route path="/movies" element={<Movies moviesList={moviesList} />} />
         </Routes>
         <Footer />
       </div>
