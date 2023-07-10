@@ -20,7 +20,7 @@ const moviesDataBase = [
     nameRU: "Киноальманах «100 лет дизайна»",
     duration: "102",
     image: movieImage_2,
-    isLiked: false,
+    isLiked: true,
   },
   {
     _id: "3",
@@ -34,7 +34,7 @@ const moviesDataBase = [
     nameRU: "Баския: Взрыв реальности",
     duration: "102",
     image: movieImage_4,
-    isLiked: false,
+    isLiked: true,
   },
   {
     _id: "5",

@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 
 import logo from "../../images/logo.svg";
 
-const isLoggedIn = false;
-
-function Header() {
+function Header({ isLoggedIn }) {
   return (
     <header className="header">
       <Link to="/" className="header__logo">

@@ -9,8 +9,7 @@
 
 .movies__container {
   display: grid;
-  /* grid-template-columns: repeat(auto-fit, 270px); */
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-template-columns: repeat(4, minmax(270px, 1fr));
   gap: 38px 20px;
   justify-content: center;
 }
@@ -34,7 +33,14 @@
 
 @media screen and (max-width: 1199px) {
   .movies__container {
+    grid-template-columns: repeat(3, minmax(270px, 1fr));
     gap: 30px;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .movies__container {
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   }
 }
 
