@@ -11,6 +11,7 @@ import Profile from "../Profile/Profile.js";
 import Footer from "../Footer/Footer.js";
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
+import NotFound from "../NotFound/NotFound.js";
 
 import moviesDataBase from "../../utils/moviesDataBase.js";
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/signin" element={<Login />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {location.pathname !== "/profile" &&
           location.pathname !== "/signup" &&
