@@ -32,7 +32,7 @@ function App() {
           />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-        <Footer />
+        {location.pathname !== "/profile" && <Footer />}
       </div>
     </div>
   );
