@@ -9,6 +9,8 @@ import Main from "../Main/Main.js";
 import Movies from "../Movies/Movies.js";
 import Profile from "../Profile/Profile.js";
 import Footer from "../Footer/Footer.js";
+import Register from "../Register/Register.js";
+import Login from "../Login/Login.js";
 
 import moviesDataBase from "../../utils/moviesDataBase.js";
 
@@ -22,7 +24,9 @@ function App() {
   return (
     <div className="App">
       <div className="page">
-        <Header isLoggedIn={isLoggedIn} />
+        {location.pathname !== "/signup" && location.pathname !== "/signin" && (
+          <Header isLoggedIn={isLoggedIn} />
+        )}
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/movies" element={<Movies moviesList={moviesList} />} />
@@ -31,8 +35,12 @@ function App() {
             element={<Movies moviesList={moviesList} />}
           />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/signin" element={<Login />} />
         </Routes>
-        {location.pathname !== "/profile" && <Footer />}
+        {location.pathname !== "/profile" &&
+          location.pathname !== "/signup" &&
+          location.pathname !== "/signin" && <Footer />}
       </div>
     </div>
   );
