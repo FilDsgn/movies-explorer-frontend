@@ -6,10 +6,11 @@ function Login() {
   return (
     <AuthForm
       name="login"
-      title="Добро пожаловать!"
-      buttonText="Зарегистрироваться"
-      formBottomText="Уже зарегистрированы?"
-      linkText="Войти"
+      title="Рады видеть!"
+      buttonText="Войти"
+      formBottomText="Ещё не зарегистрированы?"
+      linkText="Регистрация"
+      link="/signup"
     >
       <label className="auth-form__label">
         E-mail

@@ -12,12 +12,20 @@ function Footer() {
           <p className="footer__copyright">&copy; 2020</p>
           <ul className="footer__list">
             <li>
-              <Link to="/" className="footer__list-item">
+              <Link
+                to="https://practicum.yandex.ru/"
+                target="_blank"
+                className="footer__list-item"
+              >
                 Яндекс.Практикум
               </Link>
             </li>
             <li>
-              <Link to="/" className="footer__list-item">
+              <Link
+                to="https://github.com/FilDsgn"
+                target="_blank"
+                className="footer__list-item"
+              >
                 Github
               </Link>
             </li>

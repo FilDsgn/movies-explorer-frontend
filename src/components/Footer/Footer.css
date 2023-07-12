@@ -55,6 +55,11 @@
   line-height: normal;
   text-decoration: none;
   margin: 0;
+  transition: .3s;
+}
+
+.footer__list-item:hover {
+  opacity: .7;
 }
 
 @media screen and (max-width: 560px) {

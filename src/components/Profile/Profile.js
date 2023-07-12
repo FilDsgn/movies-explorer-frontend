@@ -19,7 +19,7 @@ function Profile() {
           minLength="2"
           maxLength="30"
           required
-          value="Виталий"
+          defaultValue="Виталий"
           className="profile__input"
         ></input>
       </label>
@@ -30,7 +30,7 @@ function Profile() {
           minLength="2"
           maxLength="30"
           required
-          value="pochta@yandex.ru"
+          defaultValue="pochta@yandex.ru"
           className="profile__input"
         ></input>
       </label>

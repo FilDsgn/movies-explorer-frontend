@@ -10,6 +10,7 @@ function AuthForm({
   buttonText,
   formBottomText,
   linkText,
+  link,
   children,
 }) {
   return (
@@ -22,7 +23,7 @@ function AuthForm({
       </button>
       <span className="auth-form__text">
         {formBottomText}{" "}
-        <Link to="/" className="auth-form__link">
+        <Link to={link} className="auth-form__link">
           {linkText}
         </Link>
       </span>

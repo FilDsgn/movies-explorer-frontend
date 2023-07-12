@@ -5,7 +5,7 @@ import aboutMeImg from "../../images/about-me-img.png";
 
 function AboutMe() {
   return (
-    <section className="about-me">
+    <section id="about-me" className="about-me">
       <h2 className="about-me__title">Студент</h2>
       <div className="about-me__content">
         <article className="about-me__article">
@@ -18,7 +18,11 @@ function AboutMe() {
             Контур». После того, как прошёл курс по веб-разработке, начал
             заниматься фриланс-заказами и ушёл с постоянной работы.
           </p>
-          <Link to="/" className="about-me__link">
+          <Link
+            to="https://github.com/FilDsgn"
+            target="_blank"
+            className="about-me__link"
+          >
             Github
           </Link>
         </article>

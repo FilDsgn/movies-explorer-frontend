@@ -1,7 +1,7 @@
 .portfolio {
   max-width: 1200px;
   width: 100%;
-  padding: 0 50px 125px 50px;
+  padding: 0 30px 125px 30px;
   box-sizing: border-box;
 }
 
@@ -42,6 +42,11 @@
   line-height: 1.5;
   text-decoration: none;
   letter-spacing: -1px;
+  transition: .3s;
+}
+
+.portfolio__list-link:hover {
+  opacity: .7;
 }
 
 @media screen and (max-width: 768px) {

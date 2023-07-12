@@ -10,6 +10,7 @@ function Register() {
       buttonText="Зарегистрироваться"
       formBottomText="Уже зарегистрированы?"
       linkText="Войти"
+      link="/signin"
     >
       <label className="auth-form__label">
         Имя

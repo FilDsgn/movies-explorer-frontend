@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import "./App.css";
 
 import React from "react";
@@ -25,24 +24,42 @@ function App() {
   return (
     <div className="App">
       <div className="page">
-        {location.pathname !== "/signup" && location.pathname !== "/signin" && (
-          <Header isLoggedIn={isLoggedIn} />
-        )}
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/movies" element={<Movies moviesList={moviesList} />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Header isLoggedIn={isLoggedIn} />
+                <Main />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/movies"
+            element={
+              <>
+                <Header isLoggedIn={isLoggedIn} />
+                <Movies moviesList={moviesList} />
+                <Footer />
+              </>
+            }
+          />
           <Route
             path="/saved-movies"
-            element={<Movies moviesList={moviesList} />}
+            element={
+              <>
+                <Header isLoggedIn={isLoggedIn} />
+                <Movies moviesList={moviesList} />
+                <Footer />
+              </>
+            }
           />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Register />} />
           <Route path="/signin" element={<Login />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {location.pathname !== "/profile" &&
-          location.pathname !== "/signup" &&
-          location.pathname !== "/signin" && <Footer />}
       </div>
     </div>
   );
