@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import logo from "../../images/logo.svg";
 
+import Navigation from "../Navigation/Navigation.js";
+
 function Header({ isLoggedIn }) {
   return (
     <header className="header">
@@ -10,7 +12,9 @@ function Header({ isLoggedIn }) {
         <img src={logo} alt="logo bitfilms"></img>
       </Link>
 
-      {!isLoggedIn ? (
+      <Navigation></Navigation>
+
+      {/* {!isLoggedIn ? (
         <nav className="header__menu header__menu-auth">
           <Link to="/" className="header__menu-item">
             Регистрация
@@ -33,7 +37,7 @@ function Header({ isLoggedIn }) {
             Аккаунт <div className="header__profile-icon"></div>
           </Link>
         </nav>
-      )}
+      )} */}
     </header>
   );
 }
