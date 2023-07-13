@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <section className="footer">
+    <footer className="footer">
       <div className="footer__container">
         <h2 className="footer__title">
           Учебный проект Яндекс.Практикум х BeatFilm.
@@ -32,7 +32,7 @@ function Footer() {
           </ul>
         </div>
       </div>
-    </section>
+    </footer>
   );
 }
 

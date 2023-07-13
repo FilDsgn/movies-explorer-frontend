@@ -7,7 +7,7 @@ function Navigation() {
   const [nav, setNav] = useState(false);
 
   return (
-    <nav className={`navigation ${nav && "navigation_bg-color_black"}`}>
+    <nav className={`navigation ${nav ? "navigation_bg-color_black" : ""}`}>
       <button
         type="button"
         onClick={() => setNav(!nav)}
