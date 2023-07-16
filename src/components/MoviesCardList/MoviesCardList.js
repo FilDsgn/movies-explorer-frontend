@@ -12,10 +12,9 @@ function MoviesCardList({ moviesList }) {
       <div className="movies__container">
         {location.pathname === "/saved-movies"
           ? moviesList.map(
-              (card) =>
-                card.isLiked && <MoviesCard card={card} key={card._id} />
+              (card) => card.isLiked && <MoviesCard card={card} key={card.id} />
             )
-          : moviesList.map((card) => <MoviesCard card={card} key={card._id} />)}
+          : moviesList.map((card) => <MoviesCard card={card} key={card.id} />)}
       </div>
       {moviesList.lenth > 6 && (
         <button type="button" className="movies__button">

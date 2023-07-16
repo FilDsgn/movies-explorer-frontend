@@ -7,7 +7,11 @@ function MoviesCard({ card }) {
 
   return (
     <article className="movies-card">
-      <img src={card.image} alt="movie poster" className="movies-card__image" />
+      <img
+        src={`https://api.nomoreparties.co/${card.image.url}`}
+        alt="movie poster"
+        className="movies-card__image"
+      />
       <div className="movies-card__wrapper">
         <h2 className="movies-card__title">{card.nameRU}</h2>
         {location.pathname === "/saved-movies" ? (

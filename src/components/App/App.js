@@ -12,10 +12,7 @@ import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
 import NotFound from "../NotFound/NotFound.js";
 
-import moviesDataBase from "../../utils/moviesDataBase.js";
-
 function App() {
-  const moviesList = moviesDataBase;
   const location = useLocation();
 
   let isLoggedIn;
@@ -40,7 +37,7 @@ function App() {
             element={
               <>
                 <Header isLoggedIn={isLoggedIn} />
-                <Movies moviesList={moviesList} />
+                <Movies isLoggedIn={isLoggedIn} />
                 <Footer />
               </>
             }
@@ -50,7 +47,7 @@ function App() {
             element={
               <>
                 <Header isLoggedIn={isLoggedIn} />
-                <Movies moviesList={moviesList} />
+                <Movies isLoggedIn={isLoggedIn} />
                 <Footer />
               </>
             }
