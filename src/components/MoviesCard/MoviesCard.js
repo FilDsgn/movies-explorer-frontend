@@ -5,6 +5,25 @@ import { useLocation } from "react-router-dom";
 function MoviesCard({ card }) {
   const location = useLocation();
 
+  function convertDuration(duration) {
+    const hours = Math.trunc(duration / 60);
+    const minutes = duration % 60;
+
+    const result = [];
+
+    if (hours > 0) {
+      result.push(`${hours}ч`);
+    }
+
+    if (minutes < 10) {
+      result.push(`0${minutes}м`);
+    } else {
+      result.push(`${minutes}м`);
+    }
+
+    return result.join(" ");
+  }
+
   return (
     <article className="movies-card">
       <img
@@ -28,7 +47,7 @@ function MoviesCard({ card }) {
           ></button>
         )}
       </div>
-      <p className="movies-card__duration">{card.duration} мин</p>
+      <p className="movies-card__duration">{convertDuration(card.duration)}</p>
     </article>
   );
 }

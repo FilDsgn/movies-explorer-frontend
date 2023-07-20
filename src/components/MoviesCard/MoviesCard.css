@@ -65,7 +65,7 @@
 }
 
 
-@media screen and (max-width: 629px) {
+@media screen and (max-width: 560px) {
   .movies-card__image {
     height: 280px;
   }

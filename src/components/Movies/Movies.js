@@ -12,6 +12,7 @@ function Movies({ isLoggedIn }) {
   const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
+  const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,13 +34,22 @@ function Movies({ isLoggedIn }) {
     const Debounce = setTimeout(() => {
       const filteredMovies = filterMovies(searchMovie, moviesData);
       setMoviesList(filteredMovies);
-    }, 500);
+    }, 1000);
 
     return () => clearTimeout(Debounce);
   }, [searchMovie, moviesData]);
 
+  function handleCheckedShorts() {
+    setCheckedShortsMovies(!checkedShortsMovies);
+  }
+
   function handleSearchMovie(e) {
     setSearchMovie(e.target.value);
+  }
+
+  function handleSearchButton() {
+    const filteredMovies = filterMovies(searchMovie, moviesData);
+    setMoviesList(filteredMovies);
   }
 
   function filterMovies(searchText, moviesData) {
@@ -54,8 +64,19 @@ function Movies({ isLoggedIn }) {
 
   return (
     <main className="content">
-      <SearchForm handleSearchMovie={handleSearchMovie} />
-      {isLoading ? <Preloader /> : <MoviesCardList moviesList={moviesList} />}
+      <SearchForm
+        handleSearchMovie={handleSearchMovie}
+        handleCheckedShorts={handleCheckedShorts}
+        handleSearchButton={handleSearchButton}
+      />
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          moviesList={moviesList}
+          checkedShortsMovies={checkedShortsMovies}
+        />
+      )}
     </main>
   );
 }

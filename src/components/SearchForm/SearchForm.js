@@ -2,7 +2,11 @@ import "./SearchForm.css";
 
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox.js";
 
-function SearchForm({ handleSearchMovie }) {
+function SearchForm({
+  handleSearchMovie,
+  handleCheckedShorts,
+  handleSearchButton,
+}) {
   return (
     <section className="search">
       <div className="search__container">
@@ -15,9 +19,13 @@ function SearchForm({ handleSearchMovie }) {
             required
             className="search__input"
           ></input>
-          <button className="search__button"></button>
+          <button
+            type="button"
+            onClick={handleSearchButton}
+            className="search__button"
+          ></button>
         </form>
-        <FilterCheckbox />
+        <FilterCheckbox handleCheckedShorts={handleCheckedShorts} />
       </div>
     </section>
   );
