@@ -1,33 +1,58 @@
 import "./MoviesCard.css";
 
+import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 
-function MoviesCard({ card }) {
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
+import { convertDuration } from "../../utils/utils.js";
+
+function MoviesCard({ card, onSaveMovie, onDeleteMovie }) {
+  const currentUser = useContext(CurrentUserContext);
+  // const savedMovies = useContext(CurrentSavedMoviesContext);
+  const [isSavedMovie, setIsSavedMovie] = useState(false);
+
+  // console.log(savedMovies);
+
+  // const isSavedMovie = savedMovies.some(
+  //   (movie) => movie.movieId === card.id || movie.movieId === card._id
+  // );
+
+  // useEffect(() => {
+  //   const isSavedMovie = savedMovies.some(
+  //     (movie) => movie.movieId === card.id || movie.movieId === card._id
+  //   );
+  //   setIsSavedMovie(isSavedMovie);
+  // }, [savedMovies, card]);
+
   const location = useLocation();
 
-  function convertDuration(duration) {
-    const hours = Math.trunc(duration / 60);
-    const minutes = duration % 60;
+  function handleLikeClick() {
+    onSaveMovie(card);
+    console.log(card.id);
+  }
 
-    const result = [];
+  // function handleLikeClick() {
+  //   if (!isSavedMovie) {
+  //     onSaveMovie(card);
+  //     console.log(card.id);
+  //   }
 
-    if (hours > 0) {
-      result.push(`${hours}ч`);
-    }
+  //   onDeleteMovie(card);
+  // }
 
-    if (minutes < 10) {
-      result.push(`0${minutes}м`);
-    } else {
-      result.push(`${minutes}м`);
-    }
-
-    return result.join(" ");
+  function handleDeleteClick() {
+    onDeleteMovie(card);
   }
 
   return (
     <article className="movies-card">
       <img
-        src={`https://api.nomoreparties.co/${card.image.url}`}
+        src={`${
+          location.pathname === "/movies"
+            ? `https://api.nomoreparties.co/${card.image.url}`
+            : `${card.image}`
+        }`}
         alt="movie poster"
         className="movies-card__image"
       />
@@ -37,13 +62,15 @@ function MoviesCard({ card }) {
           <button
             type="button"
             className="movies-card__button movies-card__button-delete"
+            onClick={handleDeleteClick}
           ></button>
         ) : (
           <button
             type="button"
             className={`movies-card__button movies-card__button-like ${
-              card.isLiked && "movies-card__button-like_active"
+              isSavedMovie ? "movies-card__button-like_active" : ""
             }`}
+            onClick={handleLikeClick}
           ></button>
         )}
       </div>

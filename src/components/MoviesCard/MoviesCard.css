@@ -7,6 +7,7 @@
   height: 151px;
   object-position: center;
   object-fit: cover;
+  display: block;
 }
 
 .movies-card__wrapper {

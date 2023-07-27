@@ -8,7 +8,9 @@ import Preloader from "../Preloader/Preloader.js";
 
 import moviesApi from "../../utils/MoviesApi.js";
 
-function Movies({ isLoggedIn }) {
+import { filterSearchMovies } from "../../utils/utils.js";
+
+function Movies({ isLoggedIn, savedMovies, onSaveMovie, onDeleteMovie }) {
   const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
@@ -32,7 +34,7 @@ function Movies({ isLoggedIn }) {
 
   useEffect(() => {
     const Debounce = setTimeout(() => {
-      const filteredMovies = filterMovies(searchMovie, moviesData);
+      const filteredMovies = filterSearchMovies(searchMovie, moviesData);
       setMoviesList(filteredMovies);
     }, 1000);
 
@@ -48,18 +50,8 @@ function Movies({ isLoggedIn }) {
   }
 
   function handleSearchButton() {
-    const filteredMovies = filterMovies(searchMovie, moviesData);
+    const filteredMovies = filterSearchMovies(searchMovie, moviesData);
     setMoviesList(filteredMovies);
-  }
-
-  function filterMovies(searchText, moviesData) {
-    if (!searchText) {
-      return moviesData;
-    }
-
-    return moviesData.filter((movie) =>
-      movie.nameRU.toLowerCase().includes(searchText.toLowerCase())
-    );
   }
 
   return (
@@ -74,7 +66,10 @@ function Movies({ isLoggedIn }) {
       ) : (
         <MoviesCardList
           moviesList={moviesList}
+          savedMovies={savedMovies}
           checkedShortsMovies={checkedShortsMovies}
+          onSaveMovie={onSaveMovie}
+          onDeleteMovie={onDeleteMovie}
         />
       )}
     </main>

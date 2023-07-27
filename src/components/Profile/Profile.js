@@ -1,17 +1,21 @@
 import "./Profile.css";
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 
-function Profile() {
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
+function Profile({ onLogout }) {
   const [isProfileEdit, setIsProfileEdit] = useState(false);
 
   function toggleProfileButtons() {
     setIsProfileEdit(!isProfileEdit);
   }
 
+  const currentUser = useContext(CurrentUserContext);
+
   return (
     <form className="profile">
-      <h2 className="profile__title">Привет, Виталий!</h2>
+      <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
       <label className="profile__label">
         Имя
         <input
@@ -19,7 +23,7 @@ function Profile() {
           minLength="2"
           maxLength="30"
           required
-          defaultValue="Виталий"
+          defaultValue={currentUser.name}
           className="profile__input"
         ></input>
       </label>
@@ -30,7 +34,7 @@ function Profile() {
           minLength="2"
           maxLength="30"
           required
-          defaultValue="pochta@yandex.ru"
+          defaultValue={currentUser.email}
           className="profile__input"
         ></input>
       </label>
@@ -45,6 +49,8 @@ function Profile() {
         Редактировать
       </button>
       <button
+        type="button"
+        onClick={onLogout}
         className={`profile__button profile__button_type_logout ${
           isProfileEdit && "profile__button_hidden"
         }`}

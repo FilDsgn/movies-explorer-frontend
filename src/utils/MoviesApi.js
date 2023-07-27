@@ -1,3 +1,5 @@
+import { moviesApiConfig } from "./constants.js";
+
 class MoviesApi {
   constructor(config) {
     this._baseUrl = config.baseUrl;
@@ -23,13 +25,6 @@ class MoviesApi {
     });
   }
 }
-
-const moviesApiConfig = {
-  baseUrl: "https://api.nomoreparties.co/beatfilm-movies",
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 
 const moviesApi = new MoviesApi(moviesApiConfig);
 

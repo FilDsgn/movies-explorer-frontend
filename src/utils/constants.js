@@ -9,3 +9,18 @@ export const TABLET_MINI_CARDS_AMOUNT = { showCards: 8, addCards: 2 };
 export const MOBILE_CARDS_AMOUNT = { showCards: 5, addCards: 2 };
 
 export const DURATION_SHORT_MOVIES = 100;
+
+export const mainApiConfig = {
+  baseUrl: "https://api.bitfilms.nomoredomains.work",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+};
+
+export const moviesApiConfig = {
+  baseUrl: "https://api.nomoreparties.co/beatfilm-movies",
+  headers: {
+    "Content-Type": "application/json",
+  },
+};

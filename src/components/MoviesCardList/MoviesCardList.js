@@ -1,6 +1,7 @@
 import "./MoviesCardList.css";
 
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import useResize from "../../hooks/useResize";
 
 import MoviesCard from "../MoviesCard/MoviesCard";
@@ -17,9 +18,16 @@ import {
 
 import { filterShortMovies } from "../../utils/utils.js";
 
-function MoviesCardList({ moviesList, checkedShortsMovies }) {
+function MoviesCardList({
+  moviesList,
+  savedMovies,
+  checkedShortsMovies,
+  onSaveMovie,
+  onDeleteMovie,
+}) {
   const [device, setDevice] = useState(DESKTOP_CARDS_AMOUNT);
   const [moviesCounter, setMoviesCounter] = useState(device.showCards);
+  const location = useLocation();
   const filteredMoviesList = filterShortMovies(moviesList, checkedShortsMovies);
 
   const { width } = useResize();
@@ -50,9 +58,30 @@ function MoviesCardList({ moviesList, checkedShortsMovies }) {
   return (
     <section className="movies">
       <div className="movies__container">
-        {filteredMoviesList.slice(0, moviesCounter).map((card) => (
-          <MoviesCard card={card} key={card.id} />
-        ))}
+        {location.pathname === "/saved-movies"
+          ? filteredMoviesList
+              .slice(0, moviesCounter)
+              .map((card) => (
+                <MoviesCard
+                  card={card}
+                  key={card.id ?? card._id}
+                  savedMovies={savedMovies}
+                  onSaveMovie={onSaveMovie}
+                  onDeleteMovie={onDeleteMovie}
+                />
+              ))
+              .reverse()
+          : filteredMoviesList
+              .slice(0, moviesCounter)
+              .map((card) => (
+                <MoviesCard
+                  card={card}
+                  key={card.id ?? card._id}
+                  savedMovies={savedMovies}
+                  onSaveMovie={onSaveMovie}
+                  onDeleteMovie={onDeleteMovie}
+                />
+              ))}
       </div>
 
       {moviesCounter < filteredMoviesList.length && (
