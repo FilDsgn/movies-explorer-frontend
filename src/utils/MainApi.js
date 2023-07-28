@@ -53,7 +53,7 @@ class MainApi {
 
   setUserInfo(data) {
     return this._request(`${this._baseUrl}/users/me`, {
-      method: "POST",
+      method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),
     });
@@ -74,10 +74,13 @@ class MainApi {
     });
   }
 
-  getSavedMovies() {
+  getSavedMovies(token) {
     return this._request(`${this._baseUrl}/movies`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 }

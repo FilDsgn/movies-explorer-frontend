@@ -14,9 +14,17 @@ function Movies({ isLoggedIn, savedMovies }) {
   const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
-  const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
+  const [checkedShortsMovies, setCheckedShortsMovies] = useState(
+    JSON.parse(localStorage.getItem("isCheckboxActive")) ?? true
+  );
 
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("searchMovie")) {
+      setSearchMovie(localStorage.getItem("searchMovie"));
+    }
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,7 +33,11 @@ function Movies({ isLoggedIn, savedMovies }) {
         .then((res) => {
           const [moviesData] = res;
           setMoviesData(moviesData);
-          setMoviesList(moviesData);
+          if (localStorage.getItem("searchedMovies")) {
+            setMoviesList(JSON.parse(localStorage.getItem("searchedMovies")));
+          } else {
+            setMoviesList(moviesData);
+          }
         })
         .catch((err) => console.log(err))
         .finally(() => setIsLoading(false));
@@ -36,13 +48,21 @@ function Movies({ isLoggedIn, savedMovies }) {
     const Debounce = setTimeout(() => {
       const filteredMovies = filterSearchMovies(searchMovie, moviesData);
       setMoviesList(filteredMovies);
+      localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+      localStorage.setItem("searchMovie", searchMovie);
     }, 1000);
 
     return () => clearTimeout(Debounce);
   }, [searchMovie, moviesData]);
 
   function handleCheckedShorts() {
-    setCheckedShortsMovies(!checkedShortsMovies);
+    if (!checkedShortsMovies) {
+      localStorage.setItem("isCheckboxActive", true);
+      setCheckedShortsMovies(true);
+    } else {
+      localStorage.setItem("isCheckboxActive", false);
+      setCheckedShortsMovies(false);
+    }
   }
 
   function handleSearchMovie(e) {
@@ -60,6 +80,8 @@ function Movies({ isLoggedIn, savedMovies }) {
         handleSearchMovie={handleSearchMovie}
         handleCheckedShorts={handleCheckedShorts}
         handleSearchButton={handleSearchButton}
+        searchMovie={searchMovie}
+        isChecked={checkedShortsMovies}
       />
       {isLoading ? (
         <Preloader />

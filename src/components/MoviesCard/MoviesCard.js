@@ -44,19 +44,15 @@ function MoviesCard({ card }) {
   }
 
   function handleDeleteMovie() {
-    const deleteParam =
-      location.pathname === "/movies" ? card.id : card.movieId;
+    const param = location.pathname === "/movies" ? card.id : card.movieId;
 
-    const deleteMovie = savedMovies.find(
-      (movie) => movie.movieId === deleteParam
-    );
+    const deletedMovie = savedMovies.find((movie) => movie.movieId === param);
 
-    console.log(deleteMovie);
     mainApi
-      .deleteMovie(deleteMovie._id)
+      .deleteMovie(deletedMovie._id)
       .then(() => {
         setSavedMovies((state) =>
-          state.filter((movie) => movie._id !== deleteMovie._id)
+          state.filter((movie) => movie._id !== deletedMovie._id)
         );
         setIsSavedMovie(false);
       })
@@ -65,15 +61,23 @@ function MoviesCard({ card }) {
 
   return (
     <article className="movies-card">
-      <img
-        src={`${
-          location.pathname === "/movies"
-            ? `https://api.nomoreparties.co/${card.image.url}`
-            : `${card.image}`
-        }`}
-        alt="movie poster"
-        className="movies-card__image"
-      />
+      <a
+        className="movies-card__link"
+        href={card.trailerLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img
+          src={`${
+            location.pathname === "/movies"
+              ? `https://api.nomoreparties.co/${card.image.url}`
+              : `${card.image}`
+          }`}
+          alt="movie poster"
+          className="movies-card__image"
+        />
+      </a>
+
       <div className="movies-card__wrapper">
         <h2 className="movies-card__title">{card.nameRU}</h2>
         {location.pathname === "/saved-movies" ? (

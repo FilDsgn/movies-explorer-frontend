@@ -1,11 +1,11 @@
 import "./Login.css";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect } from "react";
 import useFormValidation from "../../hooks/useFormValidation.js";
 
 import AuthForm from "../AuthForm/AuthForm.js";
 
-function Login({ onSubmit, onTokenCheck, onLoading }) {
+function Login({ onSubmit, onLoading }) {
   const { values, errors, isValid, handleChange, setValue, formRef } =
     useFormValidation();
 
@@ -26,10 +26,6 @@ function Login({ onSubmit, onTokenCheck, onLoading }) {
       onSubmit(email, password);
     }
   }
-
-  useEffect(() => {
-    onTokenCheck();
-  }, []);
 
   return (
     <AuthForm

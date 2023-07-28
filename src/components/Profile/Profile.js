@@ -1,29 +1,91 @@
 import "./Profile.css";
 
-import { useState, useContext } from "react";
+import { useState, useEffect, useRef } from "react";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+import mainApi from "../../utils/MainApi.js";
+
+import useFormValidation from "../../hooks/useFormValidation.js";
+
+import { useCurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 function Profile({ onLogout }) {
   const [isProfileEdit, setIsProfileEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+  const { currentUser, setCurrentUser } = useCurrentUserContext();
+  const focusedInputRef = useRef();
+
+  const { values, errors, isValid, handleChange, setValue, formRef } =
+    useFormValidation();
+
+  useEffect(() => {
+    setValue("name", currentUser.name);
+    setValue("email", currentUser.email);
+  }, [setValue, currentUser]);
+
+  useEffect(() => {
+    setErrMessage("");
+  }, [isProfileEdit]);
+
+  const displayedErrorMessage = errors.name ? errors.name : errors.email;
+
+  useEffect(() => {
+    if (isProfileEdit) {
+      focusedInputRef.current.focus();
+    }
+  }, [isProfileEdit]);
+
+  function handleEditProfileSubmit(e) {
+    e.preventDefault();
+
+    if (isValid) {
+      const { name, email } = values;
+
+      if (!name || !email) {
+        return;
+      }
+
+      setIsLoading(true);
+      mainApi
+        .setUserInfo({ name, email })
+        .then((data) => {
+          setCurrentUser(data);
+          toggleProfileButtons();
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(err === "Ошибка 409");
+          if (err === "Ошибка 409") {
+            setErrMessage("Такой пользователь уже существует");
+          } else {
+            setErrMessage(err);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }
 
   function toggleProfileButtons() {
     setIsProfileEdit(!isProfileEdit);
   }
 
-  const currentUser = useContext(CurrentUserContext);
-
   return (
-    <form className="profile">
+    <form className="profile" ref={formRef}>
       <h2 className="profile__title">{`Привет, ${currentUser.name}!`}</h2>
       <label className="profile__label">
         Имя
         <input
           type="name"
+          name="name"
+          onChange={handleChange}
+          value={values["name"] ?? ""}
           minLength="2"
           maxLength="30"
           required
-          defaultValue={currentUser.name}
+          disabled={!isProfileEdit}
+          ref={focusedInputRef}
           className="profile__input"
         ></input>
       </label>
@@ -31,10 +93,13 @@ function Profile({ onLogout }) {
         E-mail
         <input
           type="email"
+          name="email"
+          onChange={handleChange}
+          value={values["email"] ?? ""}
           minLength="2"
           maxLength="30"
           required
-          defaultValue={currentUser.email}
+          disabled={!isProfileEdit}
           className="profile__input"
         ></input>
       </label>
@@ -63,14 +128,14 @@ function Profile({ onLogout }) {
           !isProfileEdit && "profile__error-text_hidden"
         }`}
       >
-        При обновлении профиля произошла ошибка.
+        {displayedErrorMessage ? displayedErrorMessage : errMessage}
       </span>
       <button
-        type="button"
-        onClick={toggleProfileButtons}
+        type="submit"
+        onClick={handleEditProfileSubmit}
         className={`profile__button profile__button_type_save ${
-          !isProfileEdit && "profile__button_hidden"
-        }`}
+          !isValid ? "profile__button_type_save_disabled" : ""
+        } ${!isProfileEdit ? "profile__button_hidden" : ""}`}
       >
         Сохранить
       </button>

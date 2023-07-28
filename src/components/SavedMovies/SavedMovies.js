@@ -1,25 +1,17 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 
 import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Preloader from "../Preloader/Preloader.js";
 
-import moviesApi from "../../utils/MoviesApi.js";
-import mainApi from "../../utils/MainApi.js";
-
-import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
-
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function SavedMovies({ isLoggedIn, onDeleteMovie, onLoading }) {
-  // const [moviesData, setMoviesData] = useState([]);
+function SavedMovies({ isLoggedIn, isLoading }) {
   const [moviesList, setMoviesList] = useState([]);
-  const { savedMovies, setSavedMovies } = useSavedMoviesContext();
+  const { savedMovies } = useSavedMoviesContext();
   const [searchMovie, setSearchMovie] = useState("");
   const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
-
-  // const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -55,13 +47,13 @@ function SavedMovies({ isLoggedIn, onDeleteMovie, onLoading }) {
         handleSearchMovie={handleSearchMovie}
         handleCheckedShorts={handleCheckedShorts}
         handleSearchButton={handleSearchButton}
+        isChecked={checkedShortsMovies}
       />
-      {onLoading ? (
+      {isLoading ? (
         <Preloader />
       ) : (
         <MoviesCardList
           moviesList={moviesList}
-          // savedMovies={moviesData}
           checkedShortsMovies={checkedShortsMovies}
         />
       )}

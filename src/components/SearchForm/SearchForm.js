@@ -6,6 +6,8 @@ function SearchForm({
   handleSearchMovie,
   handleCheckedShorts,
   handleSearchButton,
+  searchMovie,
+  isChecked,
 }) {
   return (
     <section className="search">
@@ -16,6 +18,7 @@ function SearchForm({
             placeholder="Фильм"
             type="text"
             onChange={handleSearchMovie}
+            value={searchMovie}
             required
             className="search__input"
           ></input>
@@ -25,7 +28,10 @@ function SearchForm({
             className="search__button"
           ></button>
         </form>
-        <FilterCheckbox handleCheckedShorts={handleCheckedShorts} />
+        <FilterCheckbox
+          handleCheckedShorts={handleCheckedShorts}
+          isChecked={isChecked}
+        />
       </div>
     </section>
   );

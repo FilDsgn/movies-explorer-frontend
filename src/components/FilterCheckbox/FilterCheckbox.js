@@ -1,15 +1,17 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox({ handleCheckedShorts }) {
+function FilterCheckbox({ handleCheckedShorts, isChecked }) {
+  console.log(isChecked);
   return (
     <div className="filter">
       <label className="filter__container">
         <input
           type="checkbox"
           className="filter__input"
-          // checked={isChecked}
-          onClick={handleCheckedShorts}
-          defaultChecked
+          checked={isChecked}
+          onChange={handleCheckedShorts}
+          // onClick={handleCheckedShorts}
+          // defaultChecked
         ></input>
         <span className="filter__slider filter__round"></span>
       </label>
