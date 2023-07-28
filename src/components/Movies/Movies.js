@@ -10,7 +10,7 @@ import moviesApi from "../../utils/MoviesApi.js";
 
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function Movies({ isLoggedIn, savedMovies, onSaveMovie, onDeleteMovie }) {
+function Movies({ isLoggedIn, savedMovies }) {
   const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
@@ -68,8 +68,6 @@ function Movies({ isLoggedIn, savedMovies, onSaveMovie, onDeleteMovie }) {
           moviesList={moviesList}
           savedMovies={savedMovies}
           checkedShortsMovies={checkedShortsMovies}
-          onSaveMovie={onSaveMovie}
-          onDeleteMovie={onDeleteMovie}
         />
       )}
     </main>

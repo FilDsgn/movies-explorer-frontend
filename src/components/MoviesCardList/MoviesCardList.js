@@ -18,13 +18,7 @@ import {
 
 import { filterShortMovies } from "../../utils/utils.js";
 
-function MoviesCardList({
-  moviesList,
-  savedMovies,
-  checkedShortsMovies,
-  onSaveMovie,
-  onDeleteMovie,
-}) {
+function MoviesCardList({ moviesList, checkedShortsMovies }) {
   const [device, setDevice] = useState(DESKTOP_CARDS_AMOUNT);
   const [moviesCounter, setMoviesCounter] = useState(device.showCards);
   const location = useLocation();
@@ -62,25 +56,13 @@ function MoviesCardList({
           ? filteredMoviesList
               .slice(0, moviesCounter)
               .map((card) => (
-                <MoviesCard
-                  card={card}
-                  key={card.id ?? card._id}
-                  savedMovies={savedMovies}
-                  onSaveMovie={onSaveMovie}
-                  onDeleteMovie={onDeleteMovie}
-                />
+                <MoviesCard card={card} key={card.id ?? card._id} />
               ))
               .reverse()
           : filteredMoviesList
               .slice(0, moviesCounter)
               .map((card) => (
-                <MoviesCard
-                  card={card}
-                  key={card.id ?? card._id}
-                  savedMovies={savedMovies}
-                  onSaveMovie={onSaveMovie}
-                  onDeleteMovie={onDeleteMovie}
-                />
+                <MoviesCard card={card} key={card.id ?? card._id} />
               ))}
       </div>
 

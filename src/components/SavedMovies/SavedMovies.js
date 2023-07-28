@@ -12,57 +12,29 @@ import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.
 
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function SavedMovies({ isLoggedIn, onDeleteMovie }) {
-  const [moviesData, setMoviesData] = useState([]);
+function SavedMovies({ isLoggedIn, onDeleteMovie, onLoading }) {
+  // const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
   const { savedMovies, setSavedMovies } = useSavedMoviesContext();
   const [searchMovie, setSearchMovie] = useState("");
   const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   setSavedMovies(moviesData);
-  // }, []);
+  // const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
     if (isLoggedIn) {
-      Promise.all([mainApi.getSavedMovies()])
-        .then((res) => {
-          const [moviesData] = res;
-          setMoviesList(moviesData);
-          setMoviesData(moviesData);
-          // setSavedMovies(moviesData);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
+      setMoviesList(savedMovies);
     }
-  }, [isLoggedIn, onDeleteMovie]);
-
-  // console.log(setSavedMovies(moviesData));
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   if (isLoggedIn) {
-  //     mainApi
-  //       .getSavedMovies()
-  //       .then((res) => {
-  //         setSavedMovies(res);
-  //       })
-  //       .catch((err) => console.log(err))
-  //       .finally(() => setIsLoading(false));
-  //   }
-  // }, [setSavedMovies]);
+  }, [savedMovies, isLoggedIn]);
 
   useEffect(() => {
     const Debounce = setTimeout(() => {
-      const filteredMovies = filterSearchMovies(searchMovie, moviesData);
+      const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
       setMoviesList(filteredMovies);
     }, 1000);
 
     return () => clearTimeout(Debounce);
-  }, [searchMovie, moviesData, onDeleteMovie]);
+  }, [searchMovie, savedMovies]);
 
   function handleCheckedShorts() {
     setCheckedShortsMovies(!checkedShortsMovies);
@@ -73,7 +45,7 @@ function SavedMovies({ isLoggedIn, onDeleteMovie }) {
   }
 
   function handleSearchButton() {
-    const filteredMovies = filterSearchMovies(searchMovie, moviesData);
+    const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
     setMoviesList(filteredMovies);
   }
 
@@ -84,14 +56,13 @@ function SavedMovies({ isLoggedIn, onDeleteMovie }) {
         handleCheckedShorts={handleCheckedShorts}
         handleSearchButton={handleSearchButton}
       />
-      {isLoading ? (
+      {onLoading ? (
         <Preloader />
       ) : (
         <MoviesCardList
           moviesList={moviesList}
-          savedMovies={moviesData}
+          // savedMovies={moviesData}
           checkedShortsMovies={checkedShortsMovies}
-          onDeleteMovie={onDeleteMovie}
         />
       )}
     </main>

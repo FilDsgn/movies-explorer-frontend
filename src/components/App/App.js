@@ -1,7 +1,13 @@
 import "./App.css";
 
-import React from "react";
-import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
@@ -21,41 +27,32 @@ import { CurrentSavedMoviesContextProvider } from "../../contexts/CurrentSavedMo
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
-  const [isRegistered, setIsRegistered] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
     handleTokenCheck();
   }, [isLoggedIn]);
 
-  // React.useEffect(() => {
-  //   setIsLoading(true);
-  //   if (isLoggedIn) {
-  //     Promise.all([mainApi.getSavedMovies()])
-  //       .then((res) => {
-  //         const [moviesData] = res;
-  //         setSavedMovies(moviesData);
-  //       })
-  //       .catch((err) => console.log(err))
-  //       .finally(() => setIsLoading(false));
-  //   }
-  // }, [isLoggedIn, setSavedMovies]);
+  React.useEffect(() => {
+    console.log("обновляем фильмы");
+    getSavedMovies();
+  }, [isLoggedIn]);
 
-  // React.useEffect(() => {
-  //   setIsLoading(true);
-  //   if (isLoggedIn) {
-  //     Promise.all([mainApi.getSavedMovies()])
-  //       .then((res) => {
-  //         const [moviesData] = res;
-  //         setSavedMovies(moviesData);
-  //       })
-  //       .catch((err) => console.log(err))
-  //       .finally(() => setIsLoading(false));
-  //   }
-  // }, [isLoggedIn]);
+  function getSavedMovies() {
+    setIsLoading(true);
+    mainApi
+      .getSavedMovies()
+      .then((res) => {
+        setSavedMovies(res);
+        // console.log(res);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }
 
   function handleRegisterSubmit(email, password, name) {
     setIsLoading(true);
@@ -63,11 +60,8 @@ function App() {
       .register({ email, password, name })
       .then((data) => {
         navigate("/signin");
-        setIsRegistered(true);
       })
-      .catch((err) => {
-        setIsRegistered(false);
-      })
+      .catch((err) => {})
       .finally(() => setIsLoading(false));
   }
 
@@ -94,6 +88,7 @@ function App() {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setCurrentUser({});
+    setSavedMovies([]);
     navigate("/");
   }
 
@@ -110,8 +105,9 @@ function App() {
       .getContent(token)
       .then((res) => {
         if (res) {
-          setIsLoggedIn(true);
+          // console.log(res);
           setCurrentUser(res);
+          setIsLoggedIn(true);
         }
       })
       .catch((err) => console.log(err))
@@ -142,22 +138,43 @@ function App() {
   }
 
   function handleDeleteMovie(movie) {
-    const isOwner = movie.owner === currentUser._id;
+    // const isOwner = movie.owner === currentUser._id;
+    // console.log(movie);
+    // console.log(currentUser._id);
+    // if (isOwner) {
+    //   mainApi
+    //     .deleteMovie(movie._id)
+    //     .then(() => {
+    //       setSavedMovies((state) => state.filter((c) => c._id !== movie._id));
+    //     })
+    //     .catch((err) => console.log(err));
+    // }
 
-    if (isOwner) {
-      mainApi
-        .deleteMovie(movie._id)
-        .then((deletedMovie) => {
-          setSavedMovies(
-            savedMovies.filter((movie) => movie._id !== deletedMovie._id)
-          );
-        })
-        .catch((err) => console.log(err));
-    }
+    const deleteParam =
+      location.pathname === "/movies" ? movie.id : movie.movieId;
+
+    const deleteMovie = savedMovies.find(
+      (movie) => movie.movieId === deleteParam
+    );
+
+    mainApi
+      .deleteMovie(deleteMovie._id)
+      .then((deletedMovie) => {
+        setSavedMovies(
+          savedMovies.filter((movie) => movie._id !== deletedMovie._id)
+        );
+      })
+      .catch((err) => console.log(err));
   }
 
+  // console.log(currentUser);
+
   console.log(savedMovies);
-  console.log(setSavedMovies);
+
+  // Проверка изменений токена при смене пользователя (done)
+  // console.log(localStorage.token);
+
+  // console.log(isLoggedIn);
 
   return (
     <div className="App">
@@ -184,8 +201,8 @@ function App() {
                     <Header isLoggedIn={isLoggedIn} />
                     <Movies
                       isLoggedIn={isLoggedIn}
-                      savedMovies={savedMovies}
                       onSaveMovie={handleSaveMovie}
+                      // savedMovies={savedMovies}
                       onDeleteMovie={handleDeleteMovie}
                     />
                     <Footer />
@@ -199,8 +216,9 @@ function App() {
                     <Header isLoggedIn={isLoggedIn} />
                     <SavedMovies
                       isLoggedIn={isLoggedIn}
-                      savedMovies={savedMovies}
+                      onSaveMovie={handleSaveMovie}
                       onDeleteMovie={handleDeleteMovie}
+                      onLoading={isLoading}
                     />
                     <Footer />
                   </>

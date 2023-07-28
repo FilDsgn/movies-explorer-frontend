@@ -29,7 +29,7 @@ function Login({ onSubmit, onTokenCheck, onLoading }) {
 
   useEffect(() => {
     onTokenCheck();
-  }, [onSubmit, onTokenCheck]);
+  }, []);
 
   return (
     <AuthForm
