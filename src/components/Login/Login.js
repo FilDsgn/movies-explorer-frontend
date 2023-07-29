@@ -1,11 +1,20 @@
 import "./Login.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import mainApi from "../../utils/MainApi.js";
+
 import useFormValidation from "../../hooks/useFormValidation.js";
 
 import AuthForm from "../AuthForm/AuthForm.js";
 
-function Login({ onSubmit, onLoading }) {
+function Login({ handleSetIsLoggedIn }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
+  const navigate = useNavigate();
+
   const { values, errors, isValid, handleChange, setValue, formRef } =
     useFormValidation();
 
@@ -14,16 +23,42 @@ function Login({ onSubmit, onLoading }) {
     setValue("password", "");
   }, [setValue]);
 
+  useEffect(() => {
+    setErrMessage("");
+  }, [values]);
+
   function handleSubmit(e) {
     e.preventDefault();
+    const { email, password } = values;
+
+    if (!email || !password) {
+      setErrMessage("Заполните форму авторизации");
+      return;
+    }
+
     if (isValid) {
-      const { email, password } = values;
-
-      if (!email || !password) {
-        return;
-      }
-
-      onSubmit(email, password);
+      setIsLoading(true);
+      mainApi
+        .authorize({ email, password })
+        .then((data) => {
+          if (data.token) {
+            setErrMessage("");
+            localStorage.setItem("token", data.token);
+            handleSetIsLoggedIn(true);
+            navigate("/movies");
+          }
+        })
+        .catch((err) => {
+          if (err === "Ошибка 401") {
+            setErrMessage("Неправильная почта или пароль");
+          } else {
+            setErrMessage(err);
+          }
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   }
 
@@ -32,12 +67,14 @@ function Login({ onSubmit, onLoading }) {
       name="login"
       title="Рады видеть!"
       buttonText="Войти"
+      buttonTextOnLoading="Вхожу"
       formBottomText="Ещё не зарегистрированы?"
       linkText="Регистрация"
       link="/signup"
       handleSubmit={handleSubmit}
-      onLoading={onLoading}
+      onLoading={isLoading}
       isValid={isValid}
+      errMessage={errMessage}
       ref={formRef}
     >
       <label className="auth-form__label">

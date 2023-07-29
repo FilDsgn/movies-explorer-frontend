@@ -1,19 +1,24 @@
 import "./Profile.css";
 
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import mainApi from "../../utils/MainApi.js";
 
 import useFormValidation from "../../hooks/useFormValidation.js";
 
 import { useCurrentUserContext } from "../../contexts/CurrentUserContext.js";
+import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
 
-function Profile({ onLogout }) {
+function Profile({ handleSetIsLoggedIn }) {
   const [isProfileEdit, setIsProfileEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
   const { currentUser, setCurrentUser } = useCurrentUserContext();
+  const { setSavedMovies } = useSavedMoviesContext();
   const focusedInputRef = useRef();
+
+  const navigate = useNavigate();
 
   const { values, errors, isValid, handleChange, setValue, formRef } =
     useFormValidation();
@@ -25,7 +30,7 @@ function Profile({ onLogout }) {
 
   useEffect(() => {
     setErrMessage("");
-  }, [isProfileEdit]);
+  }, [isProfileEdit, values]);
 
   const displayedErrorMessage = errors.name ? errors.name : errors.email;
 
@@ -53,8 +58,6 @@ function Profile({ onLogout }) {
           toggleProfileButtons();
         })
         .catch((err) => {
-          console.log(err);
-          console.log(err === "Ошибка 409");
           if (err === "Ошибка 409") {
             setErrMessage("Такой пользователь уже существует");
           } else {
@@ -65,6 +68,14 @@ function Profile({ onLogout }) {
           setIsLoading(false);
         });
     }
+  }
+
+  function handleLogoutSubmit() {
+    localStorage.clear();
+    handleSetIsLoggedIn(false);
+    setCurrentUser({});
+    setSavedMovies([]);
+    navigate("/");
   }
 
   function toggleProfileButtons() {
@@ -115,7 +126,7 @@ function Profile({ onLogout }) {
       </button>
       <button
         type="button"
-        onClick={onLogout}
+        onClick={handleLogoutSubmit}
         className={`profile__button profile__button_type_logout ${
           isProfileEdit && "profile__button_hidden"
         }`}
@@ -137,7 +148,7 @@ function Profile({ onLogout }) {
           !isValid ? "profile__button_type_save_disabled" : ""
         } ${!isProfileEdit ? "profile__button_hidden" : ""}`}
       >
-        Сохранить
+        {!isLoading ? "Сохранить" : "Сохранение"}
       </button>
     </form>
   );

@@ -11,10 +11,13 @@ const AuthForm = forwardRef(
       name,
       title,
       buttonText,
+      buttonTextOnLoading,
       formBottomText,
       linkText,
       link,
       handleSubmit,
+      onLoading,
+      errMessage,
       children,
     },
     ref
@@ -31,9 +34,9 @@ const AuthForm = forwardRef(
         <img src={logo} alt="logo" className="auth-form__logo"></img>
         <h2 className="auth-form__title">{title}</h2>
         {children}
-        <span className="auth-form__error-message">error error</span>
+        <span className="auth-form__error-message">{errMessage}</span>
         <button type="submit" className="auth-form__button">
-          {buttonText}
+          {!onLoading ? buttonText : buttonTextOnLoading}
         </button>
         <span className="auth-form__text">
           {formBottomText}{" "}

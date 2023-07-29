@@ -1,7 +1,6 @@
 import "./FilterCheckbox.css";
 
 function FilterCheckbox({ handleCheckedShorts, isChecked }) {
-  console.log(isChecked);
   return (
     <div className="filter">
       <label className="filter__container">
@@ -10,8 +9,6 @@ function FilterCheckbox({ handleCheckedShorts, isChecked }) {
           className="filter__input"
           checked={isChecked}
           onChange={handleCheckedShorts}
-          // onClick={handleCheckedShorts}
-          // defaultChecked
         ></input>
         <span className="filter__slider filter__round"></span>
       </label>

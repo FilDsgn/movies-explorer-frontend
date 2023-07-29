@@ -1,11 +1,20 @@
 import "./Register.css";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import mainApi from "../../utils/MainApi.js";
+
 import useFormValidation from "../../hooks/useFormValidation.js";
 
 import AuthForm from "../AuthForm/AuthForm.js";
 
-function Register({ onSubmit, onTokenCheck, onLoading }) {
+function Register({ handleSetIsLoggedIn }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+
+  const navigate = useNavigate();
+
   const { values, errors, isValid, handleChange, setValue, formRef } =
     useFormValidation();
 
@@ -15,29 +24,56 @@ function Register({ onSubmit, onTokenCheck, onLoading }) {
     setValue("password", "");
   }, [setValue]);
 
+  useEffect(() => {
+    setErrMessage("");
+  }, [values]);
+
   function handleSubmit(e) {
     e.preventDefault();
+    const { email, password, name } = values;
+    if (!email || !password || !name) {
+      setErrMessage("Заполните форму регистрации");
+      return;
+    }
+
     if (isValid) {
-      const { email, password, name } = values;
-      onSubmit(email, password, name);
+      setIsLoading(true);
+      mainApi
+        .register({ email, password, name })
+        .then(() => {
+          return mainApi.authorize({ email, password });
+        })
+        .then((data) => {
+          localStorage.setItem("token", data.token);
+          setErrMessage("");
+          handleSetIsLoggedIn(true);
+          navigate("/movies");
+        })
+        .catch((err) => {
+          if (err === "Ошибка 409") {
+            setErrMessage("Пользователь уже зарегистрирован");
+          } else {
+            setErrMessage(err);
+          }
+          console.log(err);
+        })
+        .finally(() => setIsLoading(false));
     }
   }
-
-  // useEffect(() => {
-  //   onTokenCheck();
-  // }, []);
 
   return (
     <AuthForm
       name="register"
       title="Добро пожаловать!"
       buttonText="Зарегистрироваться"
+      buttonTextOnLoading="Регистрация"
       formBottomText="Уже зарегистрированы?"
       linkText="Войти"
       link="/signin"
       handleSubmit={handleSubmit}
-      onLoading={onLoading}
+      onLoading={isLoading}
       isValid={isValid}
+      errMessage={errMessage}
       ref={formRef}
     >
       <label className="auth-form__label">
