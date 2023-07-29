@@ -17,7 +17,7 @@
 
 ### Website
 
-[Ссылка на Сайт](https://fildsgn.github.io/mesto-react/)
+[Ссылка на Сайт](https://bitfilm.nomoredomains.sbs/)
 
 ### Figma
 
