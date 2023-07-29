@@ -59,6 +59,7 @@ function App() {
     const token = localStorage.getItem("token");
 
     if (!token) {
+      setIstokenCheck(true);
       return;
     }
 
