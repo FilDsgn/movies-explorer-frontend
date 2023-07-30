@@ -10,6 +10,8 @@ export const MOBILE_CARDS_AMOUNT = { showCards: 5, addCards: 2 };
 
 export const DURATION_SHORT_MOVIES = 100;
 
+export const PATTERN_EMAIL = "[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}";
+
 export const mainApiConfig = {
   baseUrl: "https://api.bitfilms.nomoredomains.work",
   headers: {

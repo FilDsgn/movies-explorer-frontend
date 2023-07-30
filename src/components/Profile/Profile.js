@@ -10,6 +10,8 @@ import useFormValidation from "../../hooks/useFormValidation.js";
 import { useCurrentUserContext } from "../../contexts/CurrentUserContext.js";
 import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
 
+import { PATTERN_EMAIL } from "../../utils/constants.js";
+
 function Profile({ handleSetIsLoggedIn }) {
   const [isProfileEdit, setIsProfileEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +135,7 @@ function Profile({ handleSetIsLoggedIn }) {
           required
           disabled={!isProfileEdit}
           className="profile__input"
-          pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}"
+          pattern={PATTERN_EMAIL}
         ></input>
       </label>
 

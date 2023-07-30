@@ -9,6 +9,8 @@ import useFormValidation from "../../hooks/useFormValidation.js";
 
 import AuthForm from "../AuthForm/AuthForm.js";
 
+import { PATTERN_EMAIL } from "../../utils/constants.js";
+
 function Register({ handleSetIsLoggedIn }) {
   const [isLoading, setIsLoading] = useState(false);
   const [errMessage, setErrMessage] = useState("");
@@ -100,7 +102,7 @@ function Register({ handleSetIsLoggedIn }) {
           value={values["email"] ?? ""}
           required
           className="auth-form__input"
-          pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}"
+          pattern={PATTERN_EMAIL}
         ></input>
         <span className="auth-form__input-error">{errors.email}</span>
       </label>
