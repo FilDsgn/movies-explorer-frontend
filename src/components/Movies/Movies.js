@@ -72,6 +72,8 @@ function Movies({ isLoggedIn, savedMovies }) {
   function handleSearchButton(e) {
     e.preventDefault();
     const filteredMovies = filterSearchMovies(searchMovie, moviesData);
+    localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+    localStorage.setItem("searchMovie", searchMovie);
     setMoviesList(filteredMovies);
   }
 
