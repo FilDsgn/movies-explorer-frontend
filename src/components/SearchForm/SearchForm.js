@@ -12,7 +12,7 @@ function SearchForm({
   return (
     <section className="search">
       <div className="search__container">
-        <form className="search__form">
+        <form action="#" onSubmit={handleSearchButton} className="search__form">
           <div className="search__icon"></div>
           <input
             placeholder="Фильм"
