@@ -25,7 +25,21 @@ function useFormValidation(initialValues = {}) {
     setValues((oldValues) => ({ ...oldValues, [name]: value }));
   }, []);
 
-  return { values, errors, isValid, handleChange, setValue, reset, formRef };
+  const handleSetIsValid = (boolean) => {
+    setIsValid(boolean);
+  };
+
+  return {
+    values,
+    errors,
+    isValid,
+    handleSetIsValid,
+    setIsValid,
+    handleChange,
+    setValue,
+    reset,
+    formRef,
+  };
 }
 
 export default useFormValidation;

@@ -13,10 +13,12 @@ import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.
 function Profile({ handleSetIsLoggedIn }) {
   const [isProfileEdit, setIsProfileEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errMessage, setErrMessage] = useState("");
+  const [formMessage, setFormMessage] = useState("");
   const { currentUser, setCurrentUser } = useCurrentUserContext();
   const { setSavedMovies } = useSavedMoviesContext();
   const focusedInputRef = useRef();
+  const [isProfileInfoChanged, setIsProfileInfoChanged] = useState(false);
+  const [isErrorMessage, setIsErrorMessage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,9 +30,19 @@ function Profile({ handleSetIsLoggedIn }) {
     setValue("email", currentUser.email);
   }, [setValue, currentUser]);
 
+  // useEffect(() => {
+  //   setFormMessage("");
+  // }, [isProfileEdit, values]);
+
   useEffect(() => {
-    setErrMessage("");
-  }, [isProfileEdit, values]);
+    const { name, email } = values;
+
+    if (name === currentUser.name && email === currentUser.email) {
+      setIsProfileInfoChanged(false);
+    } else {
+      setIsProfileInfoChanged(true);
+    }
+  }, [values, currentUser]);
 
   const displayedErrorMessage = errors.name ? errors.name : errors.email;
 
@@ -42,26 +54,32 @@ function Profile({ handleSetIsLoggedIn }) {
 
   function handleEditProfileSubmit(e) {
     e.preventDefault();
+    const { name, email } = values;
+
+    if (!name || !email) {
+      return;
+    }
+
+    if (!isProfileInfoChanged) {
+      return;
+    }
 
     if (isValid) {
-      const { name, email } = values;
-
-      if (!name || !email) {
-        return;
-      }
-
       setIsLoading(true);
       mainApi
         .setUserInfo({ name, email })
         .then((data) => {
           setCurrentUser(data);
           toggleProfileButtons();
+          setFormMessage("Данные успешно обновлены");
+          setIsErrorMessage(false);
         })
         .catch((err) => {
           if (err === "Ошибка 409") {
-            setErrMessage("Такой пользователь уже существует");
+            setFormMessage("Такой пользователь уже существует");
+            setIsErrorMessage(true);
           } else {
-            setErrMessage(err);
+            setFormMessage(err);
           }
         })
         .finally(() => {
@@ -79,8 +97,11 @@ function Profile({ handleSetIsLoggedIn }) {
   }
 
   function toggleProfileButtons() {
+    setFormMessage("");
     setIsProfileEdit(!isProfileEdit);
   }
+
+  console.log(formMessage);
 
   return (
     <form className="profile" ref={formRef}>
@@ -112,8 +133,17 @@ function Profile({ handleSetIsLoggedIn }) {
           required
           disabled={!isProfileEdit}
           className="profile__input"
+          pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}"
         ></input>
       </label>
+
+      <span
+        className={`profile__message ${
+          isErrorMessage || !isValid ? "profile__message_type_error" : ""
+        }`}
+      >
+        {displayedErrorMessage ? displayedErrorMessage : formMessage}
+      </span>
 
       <button
         type="button"
@@ -134,18 +164,13 @@ function Profile({ handleSetIsLoggedIn }) {
         Выйти из аккаунта
       </button>
 
-      <span
-        className={`profile__error-text ${
-          !isProfileEdit && "profile__error-text_hidden"
-        }`}
-      >
-        {displayedErrorMessage ? displayedErrorMessage : errMessage}
-      </span>
       <button
         type="submit"
         onClick={handleEditProfileSubmit}
         className={`profile__button profile__button_type_save ${
-          !isValid ? "profile__button_type_save_disabled" : ""
+          !isValid || !isProfileInfoChanged
+            ? "profile__button_type_save_disabled"
+            : ""
         } ${!isProfileEdit ? "profile__button_hidden" : ""}`}
       >
         {!isLoading ? "Сохранить" : "Сохранение"}

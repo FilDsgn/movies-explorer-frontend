@@ -31,10 +31,11 @@ function Register({ handleSetIsLoggedIn }) {
   function handleSubmit(e) {
     e.preventDefault();
     const { email, password, name } = values;
-    if (!email || !password || !name) {
-      setErrMessage("Заполните форму регистрации");
-      return;
-    }
+
+    // if (!email || !password || !name) {
+    //   setErrMessage("Заполните форму регистрации");
+    //   return;
+    // }
 
     if (isValid) {
       setIsLoading(true);
@@ -99,6 +100,7 @@ function Register({ handleSetIsLoggedIn }) {
           value={values["email"] ?? ""}
           required
           className="auth-form__input"
+          pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}"
         ></input>
         <span className="auth-form__input-error">{errors.email}</span>
       </label>

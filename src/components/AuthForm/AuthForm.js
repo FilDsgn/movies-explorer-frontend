@@ -17,6 +17,7 @@ const AuthForm = forwardRef(
       link,
       handleSubmit,
       onLoading,
+      isValid,
       errMessage,
       children,
     },
@@ -31,11 +32,18 @@ const AuthForm = forwardRef(
         ref={ref}
         className="auth-form"
       >
-        <img src={logo} alt="logo" className="auth-form__logo"></img>
+        <Link to="/" className="auth-form__logo">
+          <img src={logo} alt="logo bitfilms"></img>
+        </Link>
         <h2 className="auth-form__title">{title}</h2>
         {children}
         <span className="auth-form__error-message">{errMessage}</span>
-        <button type="submit" className="auth-form__button">
+        <button
+          type="submit"
+          className={`auth-form__button ${
+            !isValid ? "auth-form__button_disabled" : ""
+          }`}
+        >
           {!onLoading ? buttonText : buttonTextOnLoading}
         </button>
         <span className="auth-form__text">

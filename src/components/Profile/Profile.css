@@ -63,7 +63,7 @@
 }
 
 .profile__button_type_edit {
-  margin-top: auto;
+  /* margin-top: auto; */
   margin-bottom: 16px;
 }
 
@@ -93,18 +93,22 @@
   cursor: auto;
 }
 
-.profile__error-text {
-  color: #FF004C;
+.profile__message {
+  color: #2ABD1D;
   font-size: 11px;
   font-weight: 400;
   line-height: normal;
   text-align: center;
   min-height: 14px;
-  margin-top: auto;
-  margin-bottom: 20px;
+  margin-top: 50px;
+  margin-bottom: auto;
 }
 
-.profile__error-text_hidden {
+.profile__message_type_error {
+  color: #FF004C;
+}
+
+.profile__message_hidden {
   display: none;
 }
 

@@ -19,14 +19,14 @@ function SavedMovies({ isLoggedIn, isLoading }) {
     }
   }, [savedMovies, isLoggedIn]);
 
-  useEffect(() => {
-    const Debounce = setTimeout(() => {
-      const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
-      setMoviesList(filteredMovies);
-    }, 1000);
+  // useEffect(() => {
+  //   const Debounce = setTimeout(() => {
+  //     const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
+  //     setMoviesList(filteredMovies);
+  //   }, 1000);
 
-    return () => clearTimeout(Debounce);
-  }, [searchMovie, savedMovies]);
+  //   return () => clearTimeout(Debounce);
+  // }, [searchMovie, savedMovies]);
 
   function handleCheckedShorts() {
     setCheckedShortsMovies(!checkedShortsMovies);

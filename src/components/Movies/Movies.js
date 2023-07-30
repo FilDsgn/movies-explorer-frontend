@@ -44,16 +44,16 @@ function Movies({ isLoggedIn, savedMovies }) {
     }
   }, [isLoggedIn]);
 
-  useEffect(() => {
-    const Debounce = setTimeout(() => {
-      const filteredMovies = filterSearchMovies(searchMovie, moviesData);
-      setMoviesList(filteredMovies);
-      localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
-      localStorage.setItem("searchMovie", searchMovie);
-    }, 1000);
+  // useEffect(() => {
+  //   const Debounce = setTimeout(() => {
+  //     const filteredMovies = filterSearchMovies(searchMovie, moviesData);
+  //     setMoviesList(filteredMovies);
+  //     localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+  //     localStorage.setItem("searchMovie", searchMovie);
+  //   }, 1000);
 
-    return () => clearTimeout(Debounce);
-  }, [searchMovie, moviesData]);
+  //   return () => clearTimeout(Debounce);
+  // }, [searchMovie, moviesData]);
 
   function handleCheckedShorts() {
     if (!checkedShortsMovies) {

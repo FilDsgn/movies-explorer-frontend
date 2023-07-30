@@ -31,10 +31,10 @@ function Login({ handleSetIsLoggedIn }) {
     e.preventDefault();
     const { email, password } = values;
 
-    if (!email || !password) {
-      setErrMessage("Заполните форму авторизации");
-      return;
-    }
+    // if (!email || !password) {
+    //   setErrMessage("Заполните форму авторизации");
+    //   return;
+    // }
 
     if (isValid) {
       setIsLoading(true);
@@ -86,6 +86,7 @@ function Login({ handleSetIsLoggedIn }) {
           value={values["email"] ?? ""}
           required
           className="auth-form__input"
+          pattern="[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\\.{1,1}[a-z]{2,}"
         ></input>
         <span className="auth-form__input-error">{errors.email}</span>
       </label>

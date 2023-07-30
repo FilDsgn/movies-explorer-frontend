@@ -32,7 +32,7 @@ function App() {
 
   React.useEffect(() => {
     getSavedMovies();
-  }, []);
+  }, [isLoggedIn]);
 
   function handleSetIsLoggedIn(boolean) {
     setIsLoggedIn(boolean);
@@ -76,8 +76,6 @@ function App() {
         setIstokenCheck(true);
       });
   }
-
-  console.log(isLoggedIn);
 
   return (
     <div className="App">
