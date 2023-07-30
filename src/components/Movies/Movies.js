@@ -69,7 +69,8 @@ function Movies({ isLoggedIn, savedMovies }) {
     setSearchMovie(e.target.value);
   }
 
-  function handleSearchButton() {
+  function handleSearchButton(e) {
+    e.preventDefault();
     const filteredMovies = filterSearchMovies(searchMovie, moviesData);
     setMoviesList(filteredMovies);
   }
