@@ -18,7 +18,8 @@
 ### Website
 
 [Ссылка на Сайт](https://bitfilm.nomoredomains.sbs/)
-[пул реквест](https://github.com/FilDsgn/movies-explorer-frontend/tree/level-3)
+
+[пул реквест](https://github.com/FilDsgn/movies-explorer-frontend/pull/2)
 
 ### Figma
 
