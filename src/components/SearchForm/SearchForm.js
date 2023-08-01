@@ -19,7 +19,6 @@ function SearchForm({
             type="text"
             onChange={handleSearchMovie}
             value={searchMovie}
-            required
             className="search__input"
           ></input>
           <button

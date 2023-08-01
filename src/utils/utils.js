@@ -8,8 +8,11 @@ export function filterShortMovies(moviesList, checkedShortsMovies) {
 }
 
 export function filterSearchMovies(searchText, moviesData) {
+  // if (!searchText) {
+  //   return moviesData;
+  // }
   if (!searchText) {
-    return moviesData;
+    return [];
   }
 
   return moviesData.filter((movie) =>

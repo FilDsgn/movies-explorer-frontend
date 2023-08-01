@@ -34,8 +34,10 @@ function MoviesCard({ card }) {
     delete newMovie.updated_at;
     delete newMovie.id;
 
+    const token = localStorage.getItem("token");
+
     mainApi
-      .saveMovie(newMovie)
+      .saveMovie(newMovie, token)
       .then((movie) => {
         setSavedMovies([...savedMovies, movie]);
         setIsSavedMovie(true);
@@ -48,9 +50,20 @@ function MoviesCard({ card }) {
 
     const deletedMovie = savedMovies.find((movie) => movie.movieId === param);
 
+    // mainApi
+    //   .deleteMovie(deletedMovie._id)
+    //   .then((res) => {
+    //     setSavedMovies((state) =>
+    //       state.filter((movie) => movie._id !== deletedMovie._id)
+    //     );
+    //     setIsSavedMovie(false);
+    //   })
+    //   .catch((err) => console.log(err));
+    const token = localStorage.getItem("token");
+
     mainApi
-      .deleteMovie(deletedMovie._id)
-      .then(() => {
+      .deleteMovie(deletedMovie._id, token)
+      .then((res) => {
         setSavedMovies((state) =>
           state.filter((movie) => movie._id !== deletedMovie._id)
         );

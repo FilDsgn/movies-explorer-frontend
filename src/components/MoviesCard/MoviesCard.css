@@ -69,6 +69,13 @@
   border-top: #E8E8E8 1px solid;
 }
 
+@media screen and (max-width: 960px) {
+  .movies-card__button-delete {
+    visibility: visible;
+    opacity: 100;
+  }
+}
+
 
 @media screen and (max-width: 560px) {
   .movies-card__image {

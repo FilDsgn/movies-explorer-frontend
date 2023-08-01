@@ -40,8 +40,9 @@ const AuthForm = forwardRef(
         <span className="auth-form__error-message">{errMessage}</span>
         <button
           type="submit"
+          disabled={onLoading}
           className={`auth-form__button ${
-            !isValid ? "auth-form__button_disabled" : ""
+            !isValid || onLoading ? "auth-form__button_disabled" : ""
           }`}
         >
           {!onLoading ? buttonText : buttonTextOnLoading}

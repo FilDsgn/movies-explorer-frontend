@@ -7,13 +7,17 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Preloader from "../Preloader/Preloader.js";
 
 import moviesApi from "../../utils/MoviesApi.js";
+import mainApi from "../../utils/MainApi.js";
 
+import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function Movies({ isLoggedIn, savedMovies }) {
+function Movies({ isLoggedIn }) {
   const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
+  const { savedMovies, setSavedMovies } = useSavedMoviesContext();
   const [searchMovie, setSearchMovie] = useState("");
+  const [searchedMovieText, setSearchedMovieText] = useState("");
   const [checkedShortsMovies, setCheckedShortsMovies] = useState(
     JSON.parse(localStorage.getItem("isCheckboxActive")) ?? true
   );
@@ -29,9 +33,10 @@ function Movies({ isLoggedIn, savedMovies }) {
   useEffect(() => {
     setIsLoading(true);
     if (isLoggedIn) {
-      Promise.all([moviesApi.getMoviesList()])
-        .then((res) => {
-          const [moviesData] = res;
+      const token = localStorage.getItem("token");
+      moviesApi
+        .getMoviesList(token)
+        .then((moviesData) => {
           setMoviesData(moviesData);
           if (localStorage.getItem("searchedMovies")) {
             setMoviesList(JSON.parse(localStorage.getItem("searchedMovies")));
@@ -42,7 +47,27 @@ function Movies({ isLoggedIn, savedMovies }) {
         .catch((err) => console.log(err))
         .finally(() => setIsLoading(false));
     }
-  }, [isLoggedIn]);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
+    }
+
+    setIsLoading(true);
+    mainApi
+      .getSavedMovies(token)
+      .then((moviesData) => {
+        setSavedMovies(moviesData);
+        setSearchedMovieText(localStorage.getItem("searchMovie"));
+        // setMoviesData(moviesData);
+        // setMoviesList(savedMovies);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   // useEffect(() => {
   //   const Debounce = setTimeout(() => {
@@ -74,8 +99,16 @@ function Movies({ isLoggedIn, savedMovies }) {
     const filteredMovies = filterSearchMovies(searchMovie, moviesData);
     localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
     localStorage.setItem("searchMovie", searchMovie);
+    setSearchedMovieText(searchMovie);
     setMoviesList(filteredMovies);
   }
+
+  // console.log(moviesData);
+  // console.log(moviesList);
+  // console.log(savedMovies);
+
+  // console.log(searchedMovieText);
+  // console.log(searchMovie);
 
   return (
     <main className="content">
@@ -93,6 +126,9 @@ function Movies({ isLoggedIn, savedMovies }) {
           moviesList={moviesList}
           savedMovies={savedMovies}
           checkedShortsMovies={checkedShortsMovies}
+          searchedMovieText={searchedMovieText}
+          searchMovie={searchMovie}
+          isLoading={isLoading}
         />
       )}
     </main>

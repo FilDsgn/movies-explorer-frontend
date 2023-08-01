@@ -44,33 +44,45 @@ class MainApi {
     });
   }
 
-  getUserInfo() {
+  getUserInfo(token) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 
-  setUserInfo(data) {
+  setUserInfo(data, token) {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(data),
     });
   }
 
-  saveMovie(data) {
+  saveMovie(data, token) {
     return this._request(`${this._baseUrl}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(data),
     });
   }
 
-  deleteMovie(id) {
+  deleteMovie(id, token) {
     return this._request(`${this._baseUrl}/movies/${id}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
   }
 

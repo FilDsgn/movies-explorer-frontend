@@ -18,7 +18,11 @@ import {
 
 import { filterShortMovies } from "../../utils/utils.js";
 
-function MoviesCardList({ moviesList, checkedShortsMovies }) {
+function MoviesCardList({
+  moviesList,
+  checkedShortsMovies,
+  searchedMovieText,
+}) {
   const [device, setDevice] = useState(DESKTOP_CARDS_AMOUNT);
   const [moviesCounter, setMoviesCounter] = useState(device.showCards);
   const location = useLocation();
@@ -51,34 +55,90 @@ function MoviesCardList({ moviesList, checkedShortsMovies }) {
 
   return (
     <section className="movies">
-      <div className="movies__container">
-        {location.pathname === "/saved-movies"
-          ? filteredMoviesList
-              .slice(0, moviesCounter)
-              .map((card) => (
-                <MoviesCard card={card} key={card.id ?? card._id} />
-              ))
-              .reverse()
-          : filteredMoviesList
-              .slice(0, moviesCounter)
-              .map((card) => (
-                <MoviesCard card={card} key={card.id ?? card._id} />
-              ))}
-      </div>
+      {filteredMoviesList.length !== 0 ? (
+        <div className="movies__container">
+          {location.pathname === "/saved-movies"
+            ? filteredMoviesList
+                // .slice(0, moviesCounter)
+                .map((card) => (
+                  <MoviesCard card={card} key={card.id ?? card._id} />
+                ))
+                .reverse()
+            : filteredMoviesList
+                .slice(0, moviesCounter)
+                .map((card) => (
+                  <MoviesCard card={card} key={card.id ?? card._id} />
+                ))}
+        </div>
+      ) : (
+        <span className="movies__error-message">
+          {searchedMovieText === ""
+            ? "Нужно ввести ключевое слово"
+            : "Ничего не найдено"}
+        </span>
+      )}
 
-      {moviesCounter < filteredMoviesList.length && (
-        <button
-          type="button"
-          onClick={handleShowMoreButton}
-          className="movies__button"
-        >
-          Ещё
-        </button>
-      )}
-      {filteredMoviesList.length === 0 && (
+      {moviesCounter < filteredMoviesList.length &&
+        location.pathname === "/movies" && (
+          <button
+            type="button"
+            onClick={handleShowMoreButton}
+            className="movies__button"
+          >
+            Ещё
+          </button>
+        )}
+      {/* {filteredMoviesList.length === 0 && (
         <span className="movies__error-message">Ничего не найдено</span>
-      )}
+      )} */}
+
+      {/* {filteredMoviesList.length === 0 && moviesList !== 0 && (
+        <span className="movies__error-message">
+          {searchedMovieText === ""
+            ? "Нужно ввести ключевое слово"
+            : "Ничего не найдено"}
+        </span>
+      )} */}
     </section>
+
+    // <section className="movies">
+    //   <div className="movies__container">
+    //     {location.pathname === "/saved-movies"
+    //       ? filteredMoviesList
+    //           // .slice(0, moviesCounter)
+    //           .map((card) => (
+    //             <MoviesCard card={card} key={card.id ?? card._id} />
+    //           ))
+    //           .reverse()
+    //       : filteredMoviesList
+    //           .slice(0, moviesCounter)
+    //           .map((card) => (
+    //             <MoviesCard card={card} key={card.id ?? card._id} />
+    //           ))}
+    //   </div>
+
+    //   {moviesCounter < filteredMoviesList.length &&
+    //     location.pathname === "/movies" && (
+    //       <button
+    //         type="button"
+    //         onClick={handleShowMoreButton}
+    //         className="movies__button"
+    //       >
+    //         Ещё
+    //       </button>
+    //     )}
+    //   {/* {filteredMoviesList.length === 0 && (
+    //     <span className="movies__error-message">Ничего не найдено</span>
+    //   )} */}
+
+    //   {filteredMoviesList.length === 0 && moviesList !== 0 && (
+    //     <span className="movies__error-message">
+    //       {searchedMovieText === ""
+    //         ? "Нужно ввести ключевое слово"
+    //         : "Ничего не найдено"}
+    //     </span>
+    //   )}
+    // </section>
   );
 }
 

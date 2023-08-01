@@ -67,9 +67,10 @@ function Profile({ handleSetIsLoggedIn }) {
     }
 
     if (isValid) {
+      const token = localStorage.getItem("token");
       setIsLoading(true);
       mainApi
-        .setUserInfo({ name, email })
+        .setUserInfo({ name, email }, token)
         .then((data) => {
           setCurrentUser(data);
           toggleProfileButtons();
@@ -102,8 +103,6 @@ function Profile({ handleSetIsLoggedIn }) {
     setFormMessage("");
     setIsProfileEdit(!isProfileEdit);
   }
-
-  console.log(formMessage);
 
   return (
     <form className="profile" ref={formRef}>
@@ -168,9 +167,10 @@ function Profile({ handleSetIsLoggedIn }) {
 
       <button
         type="submit"
+        disabled={isLoading}
         onClick={handleEditProfileSubmit}
         className={`profile__button profile__button_type_save ${
-          !isValid || !isProfileInfoChanged
+          !isValid || !isProfileInfoChanged || isLoading
             ? "profile__button_type_save_disabled"
             : ""
         } ${!isProfileEdit ? "profile__button_hidden" : ""}`}

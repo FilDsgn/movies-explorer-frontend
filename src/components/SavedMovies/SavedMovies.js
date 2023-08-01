@@ -4,20 +4,58 @@ import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Preloader from "../Preloader/Preloader.js";
 
+import mainApi from "../../utils/MainApi.js";
+
 import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function SavedMovies({ isLoggedIn, isLoading }) {
+function SavedMovies({ isLoggedIn }) {
+  const [moviesData, setMoviesData] = useState([]);
   const [moviesList, setMoviesList] = useState([]);
-  const { savedMovies } = useSavedMoviesContext();
+  const { savedMovies, setSavedMovies } = useSavedMoviesContext();
+  // const [savedMovies, setSavedMovies] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
+  const [searchedMovieText, setSearchedMovieText] = useState("");
   const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("searchMovie")) {
+  //     setSearchMovie(localStorage.getItem("searchMovie"));
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      setMoviesList(savedMovies);
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return;
     }
-  }, [savedMovies, isLoggedIn]);
+
+    setIsLoading(true);
+    mainApi
+      .getSavedMovies(token)
+      .then((moviesData) => {
+        setSavedMovies(moviesData);
+        setMoviesData(moviesData);
+        setMoviesList(moviesData);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  // useEffect(() => {
+  //   setMoviesList(filterSearchMovies(searchMovie, savedMovies));
+  //   console.log("1");
+  // }, [savedMovies]);
+
+  useEffect(() => {
+    if (searchMovie !== "") {
+      setMoviesList(filterSearchMovies(searchMovie, savedMovies));
+      return;
+    }
+    setMoviesList(savedMovies);
+  }, [savedMovies]);
 
   // useEffect(() => {
   //   const Debounce = setTimeout(() => {
@@ -40,7 +78,11 @@ function SavedMovies({ isLoggedIn, isLoading }) {
     e.preventDefault();
     const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
     setMoviesList(filteredMovies);
+    setSearchedMovieText(searchMovie);
   }
+
+  // console.log(savedMovies);
+  // console.log(moviesList);
 
   return (
     <main className="content">
@@ -56,6 +98,8 @@ function SavedMovies({ isLoggedIn, isLoading }) {
         <MoviesCardList
           moviesList={moviesList}
           checkedShortsMovies={checkedShortsMovies}
+          searchedMovieText={searchedMovieText}
+          isLoading={isLoading}
         />
       )}
     </main>

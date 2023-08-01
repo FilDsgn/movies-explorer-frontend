@@ -23,36 +23,14 @@ function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
   const [isTokenCheck, setIstokenCheck] = React.useState(false);
 
   React.useEffect(() => {
     handleTokenCheck();
   }, [isLoggedIn]);
 
-  React.useEffect(() => {
-    getSavedMovies();
-  }, [isLoggedIn]);
-
   function handleSetIsLoggedIn(boolean) {
     setIsLoggedIn(boolean);
-  }
-
-  function getSavedMovies() {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      return;
-    }
-
-    setIsLoading(true);
-    mainApi
-      .getSavedMovies(token)
-      .then((res) => {
-        setSavedMovies(res);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
   }
 
   function handleTokenCheck() {
@@ -66,16 +44,17 @@ function App() {
     mainApi
       .getContent(token)
       .then((res) => {
-        if (res) {
-          setCurrentUser(res);
-          setIsLoggedIn(true);
-        }
+        setCurrentUser(res);
+        setIsLoggedIn(true);
       })
       .catch((err) => console.log(err))
       .finally(() => {
         setIstokenCheck(true);
       });
   }
+
+  // console.log(savedMovies);
+  // console.log(isLoggedIn);
 
   return (
     <div className="App">
@@ -116,10 +95,7 @@ function App() {
                     isLoggedIn ? (
                       <>
                         <Header isLoggedIn={isLoggedIn} />
-                        <SavedMovies
-                          isLoggedIn={isLoggedIn}
-                          isLoading={isLoading}
-                        />
+                        <SavedMovies isLoggedIn={isLoggedIn} />
                         <Footer />
                       </>
                     ) : (
