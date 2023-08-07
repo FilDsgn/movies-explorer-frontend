@@ -2,16 +2,35 @@ import "./SearchForm.css";
 
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox.js";
 
-function SearchForm() {
+function SearchForm({
+  handleSearchMovie,
+  handleCheckedShorts,
+  handleSearchButton,
+  searchMovie,
+  isChecked,
+}) {
   return (
     <section className="search">
       <div className="search__container">
-        <form className="search__form">
+        <form action="#" onSubmit={handleSearchButton} className="search__form">
           <div className="search__icon"></div>
-          <input placeholder="Фильм" required className="search__input"></input>
-          <button className="search__button"></button>
+          <input
+            placeholder="Фильм"
+            type="text"
+            onChange={handleSearchMovie}
+            value={searchMovie}
+            className="search__input"
+          ></input>
+          <button
+            type="button"
+            onClick={handleSearchButton}
+            className="search__button"
+          ></button>
         </form>
-        <FilterCheckbox />
+        <FilterCheckbox
+          handleCheckedShorts={handleCheckedShorts}
+          isChecked={isChecked}
+        />
       </div>
     </section>
   );
