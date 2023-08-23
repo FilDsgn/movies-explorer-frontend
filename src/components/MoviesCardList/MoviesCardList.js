@@ -71,11 +71,7 @@ function MoviesCardList({
                 ))}
         </div>
       ) : (
-        <span className="movies__error-message">
-          {searchedMovieText === ""
-            ? "Нужно ввести ключевое слово"
-            : "Ничего не найдено"}
-        </span>
+        <span className="movies__error-message">Ничего не найдено</span>
       )}
 
       {moviesCounter < filteredMoviesList.length &&
@@ -88,57 +84,7 @@ function MoviesCardList({
             Ещё
           </button>
         )}
-      {/* {filteredMoviesList.length === 0 && (
-        <span className="movies__error-message">Ничего не найдено</span>
-      )} */}
-
-      {/* {filteredMoviesList.length === 0 && moviesList !== 0 && (
-        <span className="movies__error-message">
-          {searchedMovieText === ""
-            ? "Нужно ввести ключевое слово"
-            : "Ничего не найдено"}
-        </span>
-      )} */}
     </section>
-
-    // <section className="movies">
-    //   <div className="movies__container">
-    //     {location.pathname === "/saved-movies"
-    //       ? filteredMoviesList
-    //           // .slice(0, moviesCounter)
-    //           .map((card) => (
-    //             <MoviesCard card={card} key={card.id ?? card._id} />
-    //           ))
-    //           .reverse()
-    //       : filteredMoviesList
-    //           .slice(0, moviesCounter)
-    //           .map((card) => (
-    //             <MoviesCard card={card} key={card.id ?? card._id} />
-    //           ))}
-    //   </div>
-
-    //   {moviesCounter < filteredMoviesList.length &&
-    //     location.pathname === "/movies" && (
-    //       <button
-    //         type="button"
-    //         onClick={handleShowMoreButton}
-    //         className="movies__button"
-    //       >
-    //         Ещё
-    //       </button>
-    //     )}
-    //   {/* {filteredMoviesList.length === 0 && (
-    //     <span className="movies__error-message">Ничего не найдено</span>
-    //   )} */}
-
-    //   {filteredMoviesList.length === 0 && moviesList !== 0 && (
-    //     <span className="movies__error-message">
-    //       {searchedMovieText === ""
-    //         ? "Нужно ввести ключевое слово"
-    //         : "Ничего не найдено"}
-    //     </span>
-    //   )}
-    // </section>
   );
 }
 

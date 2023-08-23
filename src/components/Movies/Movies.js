@@ -62,23 +62,21 @@ function Movies({ isLoggedIn }) {
       .then((moviesData) => {
         setSavedMovies(moviesData);
         setSearchedMovieText(localStorage.getItem("searchMovie"));
-        // setMoviesData(moviesData);
-        // setMoviesList(savedMovies);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }, []);
 
-  // useEffect(() => {
-  //   const Debounce = setTimeout(() => {
-  //     const filteredMovies = filterSearchMovies(searchMovie, moviesData);
-  //     setMoviesList(filteredMovies);
-  //     localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
-  //     localStorage.setItem("searchMovie", searchMovie);
-  //   }, 1000);
+  useEffect(() => {
+    const Debounce = setTimeout(() => {
+      const filteredMovies = filterSearchMovies(searchMovie, moviesData);
+      setMoviesList(filteredMovies);
+      localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+      localStorage.setItem("searchMovie", searchMovie);
+    }, 1000);
 
-  //   return () => clearTimeout(Debounce);
-  // }, [searchMovie, moviesData]);
+    return () => clearTimeout(Debounce);
+  }, [searchMovie, moviesData]);
 
   function handleCheckedShorts() {
     if (!checkedShortsMovies) {
@@ -102,13 +100,6 @@ function Movies({ isLoggedIn }) {
     setSearchedMovieText(searchMovie);
     setMoviesList(filteredMovies);
   }
-
-  // console.log(moviesData);
-  // console.log(moviesList);
-  // console.log(savedMovies);
-
-  // console.log(searchedMovieText);
-  // console.log(searchMovie);
 
   return (
     <main className="content">
