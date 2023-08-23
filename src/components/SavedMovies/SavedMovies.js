@@ -9,21 +9,13 @@ import mainApi from "../../utils/MainApi.js";
 import { useSavedMoviesContext } from "../../contexts/CurrentSavedMoviesContext.js";
 import { filterSearchMovies } from "../../utils/utils.js";
 
-function SavedMovies({ isLoggedIn }) {
-  const [moviesData, setMoviesData] = useState([]);
+function SavedMovies() {
   const [moviesList, setMoviesList] = useState([]);
   const { savedMovies, setSavedMovies } = useSavedMoviesContext();
-  // const [savedMovies, setSavedMovies] = useState([]);
   const [searchMovie, setSearchMovie] = useState("");
   const [searchedMovieText, setSearchedMovieText] = useState("");
   const [checkedShortsMovies, setCheckedShortsMovies] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("searchMovie")) {
-  //     setSearchMovie(localStorage.getItem("searchMovie"));
-  //   }
-  // }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,17 +29,11 @@ function SavedMovies({ isLoggedIn }) {
       .getSavedMovies(token)
       .then((moviesData) => {
         setSavedMovies(moviesData);
-        setMoviesData(moviesData);
         setMoviesList(moviesData);
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }, []);
-
-  // useEffect(() => {
-  //   setMoviesList(filterSearchMovies(searchMovie, savedMovies));
-  //   console.log("1");
-  // }, [savedMovies]);
 
   useEffect(() => {
     if (searchMovie !== "") {
@@ -57,14 +43,14 @@ function SavedMovies({ isLoggedIn }) {
     setMoviesList(savedMovies);
   }, [savedMovies]);
 
-  // useEffect(() => {
-  //   const Debounce = setTimeout(() => {
-  //     const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
-  //     setMoviesList(filteredMovies);
-  //   }, 1000);
+  useEffect(() => {
+    const Debounce = setTimeout(() => {
+      const filteredMovies = filterSearchMovies(searchMovie, savedMovies);
+      setMoviesList(filteredMovies);
+    }, 1000);
 
-  //   return () => clearTimeout(Debounce);
-  // }, [searchMovie, savedMovies]);
+    return () => clearTimeout(Debounce);
+  }, [searchMovie, savedMovies]);
 
   function handleCheckedShorts() {
     setCheckedShortsMovies(!checkedShortsMovies);
@@ -80,9 +66,6 @@ function SavedMovies({ isLoggedIn }) {
     setMoviesList(filteredMovies);
     setSearchedMovieText(searchMovie);
   }
-
-  // console.log(savedMovies);
-  // console.log(moviesList);
 
   return (
     <main className="content">
