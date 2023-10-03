@@ -1,12 +1,12 @@
 import "./AboutMe.css";
 import { Link } from "react-router-dom";
 
-import aboutMeImg from "../../images/about-me-img.png";
+import aboutMeImg from "../../images/about-me-img2.png";
 
 function AboutMe() {
   return (
     <section id="about-me" className="about-me">
-      <h2 className="about-me__title">Студент</h2>
+      <h2 className="about-me__title">Разработчик проекта</h2>
       <div className="about-me__content">
         <article className="about-me__article">
           <h3 className="about-me__name">Александр</h3>

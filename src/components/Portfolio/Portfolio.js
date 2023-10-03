@@ -8,14 +8,14 @@ function Portfolio() {
       <ul className="portfolio__list">
         <li className="portfolio__list-item">
           <Link
-            to="https://github.com/FilDsgn/how-to-learn"
+            to="https://github.com/FilDsgn/react-mesto-api-full-gha"
             target="_blank"
             className="portfolio__list-link"
           >
-            Статичный сайт
+            Одностраничное приложение
           </Link>
           <Link
-            to="https://github.com/FilDsgn/how-to-learn"
+            to="https://github.com/FilDsgn/react-mesto-api-full-gha"
             target="_blank"
             className="portfolio__list-link"
           >
@@ -40,14 +40,14 @@ function Portfolio() {
         </li>
         <li className="portfolio__list-item">
           <Link
-            to="https://github.com/FilDsgn/react-mesto-api-full-gha"
+            to="https://github.com/FilDsgn/how-to-learn"
             target="_blank"
             className="portfolio__list-link"
           >
-            Одностраничное приложение
+            Статичный сайт
           </Link>
           <Link
-            to="https://github.com/FilDsgn/react-mesto-api-full-gha"
+            to="https://github.com/FilDsgn/how-to-learn"
             target="_blank"
             className="portfolio__list-link"
           >

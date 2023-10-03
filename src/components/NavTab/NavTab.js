@@ -33,7 +33,7 @@ function NavTab() {
             duration={500}
             className="navtab__item"
           >
-            Студент
+            Разработчик проекта
           </Link>
         </li>
       </ul>
